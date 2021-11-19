@@ -15,6 +15,9 @@
  async function nextInQueue() {
      if (queue.length > 0 && Date.now() - lastTime > 1000) {
          const message = queue.shift();
+         if (!message.content || message.content === '') {
+             return nextInQueue();
+         }
          const scores = await analyzeText(message.content);
          const overLimit =
              Object.values(scores).filter((score) => score > limit).length != 0;
@@ -28,10 +31,12 @@
                  user = await database.User.create({
                      discordID: message.author.id,
                      karma: 0,
+                     lastThank: 0,
                  });
              }
              user.karma -= karmaDecrease;
              await user.save();
+             message.react('😞')
              console.log(message.author.tag + " karma decreased");
          }
          setTimeout(nextInQueue, 1000);

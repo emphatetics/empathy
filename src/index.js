@@ -29,8 +29,7 @@ client.on("messageCreate", async (message) => {
 const reportsMap = new Map(); // For holding IDs for in progress reports
 
 client.on("interactionCreate", async (interaction) => {
-    if (interaction.isApplicationCommand()) {
-        if (!interaction.isCommand()) return;
+    if (interaction.isCommand()) {
         const { commandName } = interaction;
         if (commandName === "ping") {
             await interaction.reply("Pong!");
@@ -61,10 +60,9 @@ client.on("interactionCreate", async (interaction) => {
         }
     } else if (interaction.isContextMenu()) {
         const { commandName } = interaction;
-        console.log(interaction.id);
         if (commandName === "Report message") {
             reportsMap.set(interaction.id, interaction.targetId);
-            const reasons = new MessageActionRow().addComponents(
+            const reasonsComponent = new MessageActionRow().addComponents(
                 new MessageSelectMenu()
                     .setCustomId("reason")
                     .setPlaceholder("Choose reason")
@@ -73,15 +71,56 @@ client.on("interactionCreate", async (interaction) => {
             await interaction.reply({
                 content: "Please specify a reason for reporting this message.",
                 ephemeral: true,
-                components: [reasons],
+                components: [reasonsComponent],
             });
         } else if (commandName === "Thank user") {
-            await interaction.reply("kiitit just jotai tyyppiä!");
+            if (interaction.targetId === interaction.user.id) {
+                return await interaction.reply("Or maybe you could thank someone else :)?");
+            }
+            let User = await database.User.findOne({ 
+                where: {
+                    discordID: interaction.user.id,
+                }
+            });
+            if (!User) {
+                User = await database.User.create({
+                    discordID: interaction.user.id,
+                    karma: 0,
+                    lastThank: 0,
+                });
+            }
+            if (Date.now() - User.lastThank < 2 * 60 * 60 * 1000) {
+                return await interaction.reply({ content: "You can thank someone only once every 2 hours.", ephemeral: true });
+            }
+            User.lastThank = Date.now();
+            User.save();
+            let targetUser = await database.User.findOne({ 
+                where: {
+                    discordID: interaction.targetId,
+                }
+            });
+            if (!targetUser) {
+                targetUser = await database.User.create({
+                    discordID: interaction.targetId,
+                    karma: 0,
+                    lastThank: 0,
+                });
+            }
+            targetUser.karma += 25;
+            targetUser.save();
+            await interaction.reply({ content: `You thanked <@${interaction.targetId}>! You can thank again in 2 hours.`, ephemeral: true});
         }
     } else if (interaction.isSelectMenu()) {
         const originalInteractionId = interaction.message.interaction.id;
         if (interaction.customId === "reason") {
             const originalMessageId = reportsMap.get(originalInteractionId);
+            if (!originalMessageId) {
+                return await interaction.update({
+                    content:
+                        "Thank you for reporting this message! The message has been already removed, so the report was not filed!",
+                    components: [],
+                });
+            }
             const originalMessage = await interaction.channel.messages.fetch(
                 originalMessageId
             );
@@ -95,7 +134,14 @@ client.on("interactionCreate", async (interaction) => {
             const juryChannel = await client.channels.fetch(
                 process.env.JURY_CHANNEL_ID
             );
-
+            
+            let karmaUser = await database.User.findOne({ 
+                where: {
+                    discordID: originalMessage.author.id,
+                }
+            });
+            if (!karmaUser) karmaUser = {karma: 0};
+            
             const embed = {
                 color: 0x0099ff,
                 title: `Community moderation for ${originalMessage.author.tag}'s message`,
@@ -103,7 +149,7 @@ client.on("interactionCreate", async (interaction) => {
                     name: `${originalMessage.author.tag} (${originalMessage.author.id})`,
                     icon_url: originalMessage.author.displayAvatarURL(),
                 },
-                description: `Vote for action\n\nReason: **${
+                description: `Vote for action\n\nReported user's karma: **${karmaUser.karma}**\nReason: **${
                     reasons.find(
                         (reason) => reason.value === interaction.values[0]
                     ).label

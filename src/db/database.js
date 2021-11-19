@@ -76,6 +76,10 @@ const User = sequelize.define("users", {
         type: Sequelize.DataTypes.INTEGER,
         allowNull: false,
     },
+    lastThank: {
+        type: Sequelize.DataTypes.DATE,
+        allowNull: false,
+    }
 });
 
 async function connect() {
