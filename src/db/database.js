@@ -17,6 +17,10 @@ const Reports = sequelize.define('reports', {
         type: Sequelize.DataTypes.ENUM('user', 'message'),
         allowNull: false
     },
+    reason: {
+        type: Sequelize.DataTypes.ENUM('harassment', 'racism_sexism', 'nsfw_nsfl', 'malware', 'other'),
+        allowNull: false
+    },
     targetId: {
         type: Sequelize.DataTypes.STRING,
         allowNull: false
@@ -50,6 +54,23 @@ const Votes = sequelize.define('votes', {
 
 Votes.belongsTo(Reports)
 
+const User = sequelize.define('users', {
+    id: {
+        type: Sequelize.DataTypes.INTEGER,
+        primaryKey: true,
+        unique: true,
+        autoIncrement: true
+    },
+    discordID: {
+        type: Sequelize.DataTypes.STRING,
+        allowNull: false
+    },    
+    karma: {
+        type: Sequelize.DataTypes.INTEGER,
+        allowNull: false
+    }
+})
+
 async function connect() {
     try {
         await sequelize.authenticate();
@@ -63,4 +84,4 @@ async function connect() {
     }
 }
 
-module.exports = { connect, Reports, Votes }
+module.exports = { connect, Reports, Votes, User }
