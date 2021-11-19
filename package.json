@@ -20,6 +20,7 @@
   "homepage": "https://github.com/junction-2021-supercell-challenge/empathy#readme",
   "dependencies": {
     "discord.js": "^13.3.1",
-    "dotenv": "^10.0.0"
+    "dotenv": "^10.0.0",
+    "googleapis": "^91.0.0"
   }
 }
