@@ -16,10 +16,23 @@ client.on('interactionCreate', async interaction => {
 	if (commandName === 'ping') {
 		await interaction.reply('Pong!');
 	} else if (commandName === 'server') {
-		await interaction.reply('Server info.');
-	} else if (commandName === 'user') {
-		await interaction.reply('User info.');
-	}
+		await interaction.reply(`Server name: ${interaction.guild.name}\nTotal members: ${interaction.guild.memberCount}`);
+	} else if (commandName === 'info') {
+
+  if (interaction.options.getSubcommand() === 'user') {
+    const user = interaction.options.getUser('target');
+
+    if (user) {
+      await interaction.reply(`Username: ${user.username}\nID: ${user.id}`);
+    } else {
+      // systeemi heittää nyt valitun userin tiedot vastauksena.   |  Ephemeral: true => komennon suorittaja näkee ainoastaan botin vastauksen
+      await interaction.reply({content:`Your username: ${interaction.user.username}\nYour ID: ${interaction.user.id}`, ephemeral: true});
+    }
+  } else if (interaction.options.getSubcommand() === 'server') {
+    await interaction.reply(`Server name: ${interaction.guild.name}\nTotal members: ${interaction.guild.memberCount}`);
+  }	
+
+}
 });
 client.on('messageReactionAdd', async (reaction, user) => {
     console.log(reaction.emoji.name, reaction.count)
