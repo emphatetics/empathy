@@ -6,7 +6,7 @@ const sequelize = new Sequelize(process.env.MARIADB_DB, process.env.MARIADB_USER
     logging: false
 })
 
-const Reports = sequelize.define('reports', {
+modules.exports.Reports = sequelize.define('reports', {
     id: {
         type: Sequelize.DataTypes.INTEGER,
         primaryKey: true,
@@ -23,6 +23,23 @@ const Reports = sequelize.define('reports', {
     },
     jurymessageid: {
         type: Sequelize.DataTypes.STRING,
+        allowNull: false
+    }
+})
+
+module.exports.User = sequelize.define('users', {
+    id: {
+        type: Sequelize.DataTypes.INTEGER,
+        primaryKey: true,
+        unique: true,
+        autoIncrement: true
+    },
+    discordID: {
+        type: Sequelize.DataTypes.STRING,
+        allowNull: false
+    },    
+    karma: {
+        type: Sequelize.DataTypes.INTEGER,
         allowNull: false
     }
 })
