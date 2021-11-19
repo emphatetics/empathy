@@ -9,13 +9,18 @@ client.on('ready', () => {
     console.log(`Logged in as ${client.user.tag}!`);
 })
 
-client.on('messageReactionAdd', async (reaction, user) => {
-    console.log(reaction.emoji.name, reaction.count)
-    if (reaction.emoji.name == '🔴' && reaction.count >= process.env.MESSAGE_REPORT_THRESHOLD) {
+client.on('interactionCreate', async interaction => {
+	if (!interaction.isContextMenu()) return;
+
+	const { commandName } = interaction;
+
+	if (commandName === 'report_message') {
+		await interaction.reply('Pong!');
         const juryChannel = await client.channels.fetch(process.env.JURY_CHANNEL_ID);
-        juryChannel.send("miau")
-        console.log("moi")  
+        juryChannel.send("miau mutta action")
+	} else if (commandName === 'thank_user') { 
+        await interaction.reply('kiitit just jotai tyyppiä!');
     }
-})
+});
 
 client.login(process.env.DISCORD_TOKEN);

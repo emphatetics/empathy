@@ -6,7 +6,7 @@ const sequelize = new Sequelize(process.env.MARIADB_DB, process.env.MARIADB_USER
     logging: false
 })
 
-modules.exports.Reports = sequelize.define('reports', {
+module.exports.Reports = sequelize.define('reports', {
     id: {
         type: Sequelize.DataTypes.INTEGER,
         primaryKey: true,
