@@ -1,75 +1,82 @@
-const Sequelize = require('sequelize');
+const Sequelize = require("sequelize");
 
-const sequelize = new Sequelize(process.env.MARIADB_DB, process.env.MARIADB_USER, process.env.MARIADB_PASS, {
-    host: process.env.MARIADB_HOST,
-    dialect: 'mariadb',
-    logging: false
-})
+const sequelize = new Sequelize(
+    process.env.MARIADB_DB,
+    process.env.MARIADB_USER,
+    process.env.MARIADB_PASS,
+    {
+        host: process.env.MARIADB_HOST,
+        dialect: "mariadb",
+        logging: false,
+    }
+);
 
-const Reports = sequelize.define('reports', {
+const Reports = sequelize.define("reports", {
     id: {
         type: Sequelize.DataTypes.INTEGER,
         primaryKey: true,
         unique: true,
-        autoIncrement: true
+        autoIncrement: true,
     },
     type: {
-        type: Sequelize.DataTypes.ENUM('user', 'message'),
-        allowNull: false
+        type: Sequelize.DataTypes.ENUM("user", "message"),
+        allowNull: false,
     },
     reason: {
-        type: Sequelize.DataTypes.ENUM('harassment', 'racism_sexism', 'nsfw_nsfl', 'malware', 'other'),
-        allowNull: false
+        type: Sequelize.DataTypes.ENUM(
+            "harassment",
+            "racism_sexism",
+            "nsfw_nsfl",
+            "malware",
+            "other"
+        ),
+        allowNull: false,
     },
     targetId: {
         type: Sequelize.DataTypes.STRING,
-        allowNull: false
+        allowNull: false,
     },
     juryMessageId: {
         type: Sequelize.DataTypes.STRING,
-        allowNull: false
-    }
-})
+        allowNull: false,
+    },
+});
 
-const Votes = sequelize.define('votes', {
+const Votes = sequelize.define("votes", {
     id: {
         type: Sequelize.DataTypes.INTEGER,
         primaryKey: true,
         unique: true,
-        autoIncrement: true
+        autoIncrement: true,
     },
     userid: {
         type: Sequelize.DataTypes.STRING,
-        allowNull: false
+        allowNull: false,
     },
     kind: {
-        type: Sequelize.DataTypes.ENUM('ban', 'kick'),
-        allowNull: false
+        type: Sequelize.DataTypes.ENUM("ban", "kick"),
+        allowNull: false,
     },
     vote: {
-        type: Sequelize.DataTypes.ENUM('positive', 'negative'),
-        allowNull: false
+        type: Sequelize.DataTypes.ENUM("positive", "negative"),
+        allowNull: false,
     },
-})
+});
 
-Votes.belongsTo(Reports)
+Votes.belongsTo(Reports);
 
-const User = sequelize.define('users', {
-    id: {
-        type: Sequelize.DataTypes.INTEGER,
+const User = sequelize.define("users", {
+    discordID: {
         primaryKey: true,
         unique: true,
-        autoIncrement: true
-    },
-    discordID: {
         type: Sequelize.DataTypes.STRING,
-        allowNull: false
-    },    
+        allowNull: false,
+    },
     karma: {
         type: Sequelize.DataTypes.INTEGER,
-        allowNull: false
-    }
-})
+        allowNull: false,
+    },
+});
 
 async function connect() {
     try {
@@ -77,11 +84,11 @@ async function connect() {
         console.log("Database connection has been established successfully");
 
         await sequelize.sync();
-        console.log("Models synchronized")
+        console.log("Models synchronized");
     } catch (error) {
         console.error("Unable to connect to the database:", error);
         process.exit(-1);
     }
 }
 
-module.exports = { connect, Reports, Votes, User }
+module.exports = { connect, Reports, Votes, User };
