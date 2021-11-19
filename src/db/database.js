@@ -17,15 +17,38 @@ const Reports = sequelize.define('reports', {
         type: Sequelize.DataTypes.ENUM('user', 'message'),
         allowNull: false
     },
-    targetid: {
+    targetId: {
         type: Sequelize.DataTypes.STRING,
         allowNull: false
     },
-    jurymessageid: {
+    juryMessageId: {
         type: Sequelize.DataTypes.STRING,
         allowNull: false
     }
 })
+
+const Votes = sequelize.define('votes', {
+    id: {
+        type: Sequelize.DataTypes.INTEGER,
+        primaryKey: true,
+        unique: true,
+        autoIncrement: true
+    },
+    userid: {
+        type: Sequelize.DataTypes.STRING,
+        allowNull: false
+    },
+    kind: {
+        type: Sequelize.DataTypes.ENUM('ban', 'kick'),
+        allowNull: false
+    },
+    vote: {
+        type: Sequelize.DataTypes.ENUM('positive', 'negative'),
+        allowNull: false
+    },
+})
+
+Votes.belongsTo(Reports)
 
 async function connect() {
     try {
@@ -40,4 +63,4 @@ async function connect() {
     }
 }
 
-module.exports = { connect }
+module.exports = { connect, Reports, Votes }
