@@ -13,7 +13,30 @@ client.on('ready', () => {
 const reportsMap = new Map(); // For holding IDs for in progress reports
 
 client.on('interactionCreate', async interaction => {
-	if (interaction.isContextMenu()) {
+	if (interaction.isApplicationCommand()) {
+        if (!interaction.isCommand()) return;
+        const { commandName } = interaction;
+          if (commandName === 'ping') {
+              await interaction.reply('Pong!');
+          } else if (commandName === 'server') {
+              await interaction.reply(`Server name: ${interaction.guild.name}\nTotal members: ${interaction.guild.memberCount}`);
+          } else if (commandName === 'info') {
+      
+        if (interaction.options.getSubcommand() === 'user') {
+          const user = interaction.options.getUser('target');
+      
+          if (user) {
+            await interaction.reply(`Username: ${user.username}\nID: ${user.id}`);
+          } else {
+            // systeemi heittää nyt valitun userin tiedot vastauksena.   |  Ephemeral: true => komennon suorittaja näkee ainoastaan botin vastauksen
+            await interaction.reply({content:`Your username: ${interaction.user.username}\nYour ID: ${interaction.user.id}`, ephemeral: true});
+          }
+        } else if (interaction.options.getSubcommand() === 'server') {
+          await interaction.reply(`Server name: ${interaction.guild.name}\nTotal members: ${interaction.guild.memberCount}`);
+        }	
+      
+      }
+    } else if (interaction.isContextMenu()) {
         const { commandName } = interaction;
         console.log(interaction.id);
         if (commandName === 'Report message') {
