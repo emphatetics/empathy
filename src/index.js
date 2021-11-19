@@ -14,11 +14,39 @@ client.on('interactionCreate', async interaction => {
 
 	const { commandName } = interaction;
 
-	if (commandName === 'report_message') {
-		await interaction.reply('Pong!');
+	if (commandName === 'Report message') {
+        const reasons = new MessageActionRow()
+			.addComponents(
+				new MessageSelectMenu()
+					.setCustomId('reason')
+					.setPlaceholder('Other')
+					.addOptions([
+						{
+							label: 'Harassment',
+							description: 'Harassment',
+							value: 'harassment',
+						},
+						{
+							label: 'Racism/sexism. etc',
+							description: 'This message contains racism, sexism, etc',
+							value: 'racism_sexism',
+						},
+                        {
+							label: 'NSFW/NSFL Content',
+							description: 'This is not safe for work/life content.',
+							value: 'nsfw_nsfl',
+						},
+                        {
+							label: 'Malware or malicious message',
+							description: 'The message contains malicious content, like viruses or uses exploits',
+							value: 'malware',
+						},
+					]),
+		);
+		await interaction.reply({ content: 'Please specify a reason for reporting this message.', ephemeral: true, components: [reasons] });
         const juryChannel = await client.channels.fetch(process.env.JURY_CHANNEL_ID);
         juryChannel.send("miau mutta action")
-	} else if (commandName === 'thank_user') { 
+	} else if (commandName === 'Thank user') { 
         await interaction.reply('kiitit just jotai tyyppiä!');
     }
 });

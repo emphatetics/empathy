@@ -12,6 +12,7 @@ const reportCommand = new SlashCommandBuilder()
 	.setDescription('Abc')
     .toJSON();
 delete reportCommand["description"];
+reportCommand["name"] = "Report message";
 reportCommand["type"] = 3; // Message thingy
 
 const thankCommand = new SlashCommandBuilder()
@@ -19,6 +20,7 @@ const thankCommand = new SlashCommandBuilder()
 	.setDescription('Abc')
     .toJSON();
 delete thankCommand["description"];
+thankCommand["name"] = "Thank user";
 thankCommand["type"] = 2; // Message thingy
 
 
