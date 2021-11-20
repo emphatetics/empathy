@@ -19,7 +19,7 @@ client.on('interactionCreate', async interaction => {
 		await interaction.reply(`Server name: ${interaction.guild.name}\nTotal members: ${interaction.guild.memberCount}`);
 	} else if (commandName === 'thanks') {
 
-  if (interaction.options.getSubcommand() === 'user') {
+//  if (interaction.options.getSubcommand() === 'user') {
     const user = interaction.options.getUser('user');
     const texti = interaction.options.getString('texti');
     console.log (user);
@@ -35,7 +35,7 @@ client.on('interactionCreate', async interaction => {
         author: {
           name: `${user.username}`,
           icon_url: user.displayAvatarURL(),
-          url: 'https://discord.js.org',
+         // url: 'https://discord.js.org',
         },
         description: `${texti}`,
        /* thumbnail: {
@@ -75,11 +75,10 @@ client.on('interactionCreate', async interaction => {
 			.catch(error => console.error('One of the emojis failed to react:', error));
 
       // client.channels.cache.get('911298015329943592').send('Hello here!')
-
-    } else {
+    
+  /*  } else {
       // systeemi heittää nyt valitun userin tiedot vastauksena.   |  Ephemeral: true => komennon suorittaja näkee ainoastaan botin vastauksen
-      await interaction.reply({content:`Your username: ${interaction.user.username}\nYour ID: ${interaction.user.id}`, ephemeral: true});
-    }
+      await interaction.reply({content:`Your username: ${interaction.user.username}\nYour ID: ${interaction.user.id}`, ephemeral: true}); */ }
   } else if (interaction.options.getSubcommand() === 'server') {
     await interaction.reply(`Server name: ${interaction.guild.name}\nTotal members: ${interaction.guild.memberCount}`);
   }	
@@ -96,7 +95,7 @@ client.on('interactionCreate', async interaction => {
 
 
 }
-});
+);
 client.on('messageReactionAdd', async (reaction, user) => {
     console.log(reaction.emoji.name, reaction.count)
     if (reaction.emoji.name == '🔴' && reaction.count >= process.env.MESSAGE_REPORT_THRESHOLD) {
