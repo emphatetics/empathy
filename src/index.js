@@ -42,7 +42,7 @@ function createComponents(bans, deletes, extra) {
             components: [
                 ...(deletes
                     ? [
-                        {
+                          {
                               type: 2,
                               label: "Delete",
                               style: 1,
@@ -262,7 +262,7 @@ client.on("interactionCreate", async (interaction) => {
             const channel = await client.channels.fetch(channelId);
             const message = await channel.messages.fetch(messageId);
             console.log(message);
-            
+
             message.delete();
             interaction.followUp(
                 "Offender's message got deleted! Good job community! ✨ #BadVibesNever"
