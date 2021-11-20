@@ -21,7 +21,7 @@ async function summonShaman(interaction, isInteraction) {
             });
         }
     } else {
-        originalMessage = message;
+        originalMessage = interaction;
     }
 
     const juryChannel = await client.channels.fetch(
