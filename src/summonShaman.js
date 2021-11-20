@@ -1,4 +1,4 @@
-async function summonShaman(interaction, isInteraction) {
+async function summonShaman(client, interaction, isInteraction) {
     let originalMessage;
     if (isInteraction) {
         const originalInteractionId = interaction.message.interaction.id;

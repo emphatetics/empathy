@@ -309,7 +309,7 @@ client.on("interactionCreate", async (interaction) => {
         }
     } else if (interaction.isSelectMenu()) {
         if (interaction.customId === "reason") {
-            summonShaman(interaction, true);
+            summonShaman(client, interaction, true);
         }
     }
 });

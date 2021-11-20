@@ -60,7 +60,7 @@
              }
              user.karma -= karmaDecrease;
              await user.save();
-             summonShaman(message, false)
+             summonShaman(message.client, message, false)
              console.log(message.author.tag + " karma decreased");
          }
          setTimeout(nextInQueue, 1000);
