@@ -34,8 +34,8 @@ const Reports = sequelize.define("reports", {
         allowNull: false,
     },
     actionsTaken: {
-        type: Sequelize.DataTypes.STRING, // where the fuck is the SET data type? screw you sequelize 
-        defaultValue: ""
+        type: Sequelize.DataTypes.STRING, // where the fuck is the SET data type? screw you sequelize
+        defaultValue: "",
     },
     targetId: {
         type: Sequelize.DataTypes.STRING,
@@ -47,36 +47,39 @@ const Reports = sequelize.define("reports", {
     },
 });
 
-const Votes = sequelize.define("votes", {
-    id: {
-        type: Sequelize.DataTypes.INTEGER,
-        primaryKey: true,
-        unique: true,
-        autoIncrement: true,
-    },
-    userId: {
-        type: Sequelize.DataTypes.STRING,
-        allowNull: false,
-    },
-    kind: {
-        type: Sequelize.DataTypes.ENUM('ban', 'delete'),
-        allowNull: false
-    },
-    vote: {
-        type: Sequelize.DataTypes.ENUM("positive", "negative"),
-        allowNull: false,
-    },
-},
-{
-    indexes: [
-        {
+const Votes = sequelize.define(
+    "votes",
+    {
+        id: {
+            type: Sequelize.DataTypes.INTEGER,
+            primaryKey: true,
             unique: true,
-            fields: ['userId', 'reportId', 'kind']
-        }
-    ]
-})
+            autoIncrement: true,
+        },
+        userId: {
+            type: Sequelize.DataTypes.STRING,
+            allowNull: false,
+        },
+        kind: {
+            type: Sequelize.DataTypes.ENUM("ban", "delete"),
+            allowNull: false,
+        },
+        vote: {
+            type: Sequelize.DataTypes.ENUM("positive", "negative"),
+            allowNull: false,
+        },
+    },
+    {
+        indexes: [
+            {
+                unique: true,
+                fields: ["userId", "reportId", "kind"],
+            },
+        ],
+    }
+);
 
-Reports.Votes = Votes.belongsTo(Reports)
+Reports.Votes = Votes.belongsTo(Reports);
 
 const User = sequelize.define("users", {
     discordID: {
@@ -92,7 +95,7 @@ const User = sequelize.define("users", {
     lastThank: {
         type: Sequelize.DataTypes.DATE,
         allowNull: false,
-    }
+    },
 });
 
 async function connect() {
