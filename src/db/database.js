@@ -30,6 +30,7 @@ const Reports = sequelize.define("reports", {
             "malware",
             "other"
         ),
+        defaultValue: "other",
         allowNull: false,
     },
     actionsTaken: {
