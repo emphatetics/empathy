@@ -28,18 +28,18 @@ client.on('interactionCreate', async interaction => {
     if (user) {
  // määritetään embedi jolla viestit lähetetään ( voikohan iskee process.env filuun?)
       const exampleEmbed = {
-        color: 0x0099ff,
+        color: 0xf7d80a,
         title: 'Thank you! 🙌🙌',
         url: 'https://discord.js.org',
         author: {
-          name: `${interaction.user.username}`,
-          icon_url: interaction.user.displayAvatarURL(),
+          name: `${user.username}`,
+          icon_url: user.displayAvatarURL(),
           url: 'https://discord.js.org',
         },
         description: `${texti}`,
-        thumbnail: {
-          url: user.displayAvatarURL(),
-        },
+       /* thumbnail: {
+          url: ,
+        },*/
         fields: [
           {
             name: `${user.username}`,
@@ -61,8 +61,8 @@ client.on('interactionCreate', async interaction => {
         },
         timestamp: new Date(),
         footer: {
-          text: `Requested by <@${interaction.user.username}>`,
-          icon_url: 'https://i.imgur.com/AfFp7pu.png',
+          text: `thanks by <@${interaction.user.username}>`,
+          icon_url: interaction.user.displayAvatarURL(),
         },
       };
       // await interaction.reply(`Username: ${user.username}\nID: ${user.id}`);
