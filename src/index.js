@@ -25,7 +25,7 @@ client.on('interactionCreate', async interaction => {
     
 
     if (user) {
-
+ // määritetään embedi jolla viestit lähetetään ( voikohan iskee process.env filuun?)
       const exampleEmbed = {
         color: 0x0099ff,
         title: 'Some title',
@@ -70,59 +70,12 @@ client.on('interactionCreate', async interaction => {
         },
         timestamp: new Date(),
         footer: {
-          text: 'Some footer text here',
+          text: `Requested by <@${interaction.user.id}>`,
           icon_url: 'https://i.imgur.com/AfFp7pu.png',
         },
       };
       // await interaction.reply(`Username: ${user.username}\nID: ${user.id}`);
-      await interaction.reply({ embeds:[ {
-        color: 0x0099ff,
-        title: 'Some title',
-        url: 'https://discord.js.org',
-        author: {
-          name: 'Some name',
-          icon_url: 'https://i.imgur.com/AfFp7pu.png',
-          url: 'https://discord.js.org',
-        },
-        description: 'Some description here',
-        thumbnail: {
-          url: 'https://i.imgur.com/AfFp7pu.png',
-        },
-        fields: [
-          {
-            name: `${user.username}`,
-            value: 'Some value here',
-          },
-          {
-            name: '\u200b',
-            value: '\u200b',
-            inline: false,
-          },
-          {
-            name: 'Inline field title',
-            value: 'Some value here',
-            inline: true,
-          },
-          {
-            name: 'Inline field title',
-            value: 'Some value here',
-            inline: true,
-          },
-          {
-            name: 'Inline field title',
-            value: 'Some value here',
-            inline: true,
-          },
-        ],
-        image: {
-          url: 'https://i.imgur.com/AfFp7pu.png',
-        },
-        timestamp: new Date(),
-        footer: {
-          text: 'Some footer text here',
-          icon_url: 'https://i.imgur.com/AfFp7pu.png',
-        },
-      } ]});
+      await interaction.reply({ content: ` Hey <@${user.id}> someone thanked you 👌🙌🎉🎉`, embeds:[exampleEmbed] });
 
     } else {
       // systeemi heittää nyt valitun userin tiedot vastauksena.   |  Ephemeral: true => komennon suorittaja näkee ainoastaan botin vastauksen
