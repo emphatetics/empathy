@@ -21,57 +21,109 @@ client.on('interactionCreate', async interaction => {
 
   if (interaction.options.getSubcommand() === 'user') {
     const user = interaction.options.getUser('user');
-    const exampleEmbed = {
-      color: 0x0099ff,
-      title: 'Some title',
-      url: 'https://discord.js.org',
-      author: {
-        name: 'Some name',
-        icon_url: 'https://i.imgur.com/AfFp7pu.png',
-        url: 'https://discord.js.org',
-      },
-      description: 'Some description here',
-      thumbnail: {
-        url: 'https://i.imgur.com/AfFp7pu.png',
-      },
-      fields: [
-        {
-          name: interaction.user.username,
-          value: 'Some value here',
-        },
-        {
-          name: '\u200b',
-          value: '\u200b',
-          inline: false,
-        },
-        {
-          name: 'Inline field title',
-          value: 'Some value here',
-          inline: true,
-        },
-        {
-          name: 'Inline field title',
-          value: 'Some value here',
-          inline: true,
-        },
-        {
-          name: 'Inline field title',
-          value: 'Some value here',
-          inline: true,
-        },
-      ],
-      image: {
-        url: 'https://i.imgur.com/AfFp7pu.png',
-      },
-      timestamp: new Date(),
-      footer: {
-        text: 'Some footer text here',
-        icon_url: 'https://i.imgur.com/AfFp7pu.png',
-      },
-    };
+    console.log (user);
+    
 
     if (user) {
-      await interaction.reply(`Username: ${user.username}\nID: ${user.id}`);
+
+      const exampleEmbed = {
+        color: 0x0099ff,
+        title: 'Some title',
+        url: 'https://discord.js.org',
+        author: {
+          name: 'Some name',
+          icon_url: 'https://i.imgur.com/AfFp7pu.png',
+          url: 'https://discord.js.org',
+        },
+        description: 'Some description here',
+        thumbnail: {
+          url: 'https://i.imgur.com/AfFp7pu.png',
+        },
+        fields: [
+          {
+            name: `${user.username}`,
+            value: 'Some value here',
+          },
+          {
+            name: '\u200b',
+            value: '\u200b',
+            inline: false,
+          },
+          {
+            name: 'Inline field title',
+            value: 'Some value here',
+            inline: true,
+          },
+          {
+            name: 'Inline field title',
+            value: 'Some value here',
+            inline: true,
+          },
+          {
+            name: 'Inline field title',
+            value: 'Some value here',
+            inline: true,
+          },
+        ],
+        image: {
+          url: 'https://i.imgur.com/AfFp7pu.png',
+        },
+        timestamp: new Date(),
+        footer: {
+          text: 'Some footer text here',
+          icon_url: 'https://i.imgur.com/AfFp7pu.png',
+        },
+      };
+      // await interaction.reply(`Username: ${user.username}\nID: ${user.id}`);
+      await interaction.reply({ embeds:[ {
+        color: 0x0099ff,
+        title: 'Some title',
+        url: 'https://discord.js.org',
+        author: {
+          name: 'Some name',
+          icon_url: 'https://i.imgur.com/AfFp7pu.png',
+          url: 'https://discord.js.org',
+        },
+        description: 'Some description here',
+        thumbnail: {
+          url: 'https://i.imgur.com/AfFp7pu.png',
+        },
+        fields: [
+          {
+            name: `${user.username}`,
+            value: 'Some value here',
+          },
+          {
+            name: '\u200b',
+            value: '\u200b',
+            inline: false,
+          },
+          {
+            name: 'Inline field title',
+            value: 'Some value here',
+            inline: true,
+          },
+          {
+            name: 'Inline field title',
+            value: 'Some value here',
+            inline: true,
+          },
+          {
+            name: 'Inline field title',
+            value: 'Some value here',
+            inline: true,
+          },
+        ],
+        image: {
+          url: 'https://i.imgur.com/AfFp7pu.png',
+        },
+        timestamp: new Date(),
+        footer: {
+          text: 'Some footer text here',
+          icon_url: 'https://i.imgur.com/AfFp7pu.png',
+        },
+      } ]});
+
     } else {
       // systeemi heittää nyt valitun userin tiedot vastauksena.   |  Ephemeral: true => komennon suorittaja näkee ainoastaan botin vastauksen
       await interaction.reply({content:`Your username: ${interaction.user.username}\nYour ID: ${interaction.user.id}`, ephemeral: true});
