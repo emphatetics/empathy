@@ -185,16 +185,6 @@ async function summonShaman(interaction, isInteraction) {
     }
 }
 
-client.on("messageReactionAdd", async (reaction, user) => {
-    console.log(reaction.emoji.name, reaction.count);
-    if (
-        reaction.emoji.name == "🍴" &&
-        reaction.count >= process.env.MESSAGE_REPORT_THRESHOLD
-    ) {
-        summonShaman(reaction);
-    }
-});
-
 client.on("messageCreate", async (message) => {
     if (message.author.bot) return;
     queue.push(message);
