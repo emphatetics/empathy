@@ -1,3 +1,5 @@
+const database = require("./db/database");
+
 async function summonShaman(client, interaction, isInteraction) {
     let originalMessage;
     if (isInteraction) {
