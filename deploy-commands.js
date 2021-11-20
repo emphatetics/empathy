@@ -7,10 +7,10 @@ const { Routes } = require('discord-api-types/v9');
 const commands = [
 	new SlashCommandBuilder().setName('ping').setDescription('Replies with pong!'),
 	new SlashCommandBuilder().setName('server').setDescription('Replies with server info!'),
-	new SlashCommandBuilder().setName('info').setDescription('Replies with user info!').addSubcommand(subcommand =>
+	new SlashCommandBuilder().setName('thanks').setDescription('Thank a user 🙌').addSubcommand(subcommand =>
 		subcommand
 			.setName('user')
-			.setDescription('Info about a user')
+			.setDescription('Thank an user 🙌🙌🙌🙌')
 			.addUserOption(option => option.setName('user').setDescription('The user'))),
 ]
 	.map(command => command.toJSON());
