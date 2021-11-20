@@ -301,7 +301,7 @@ client.on("interactionCreate", async (interaction) => {
             await interaction.reply(
                 `Server name: ${interaction.guild.name}\nTotal members: ${interaction.guild.memberCount}`
             );
-        } else if (commandName === "thanks") {
+        } else if (commandName === "thank") {
             const user = interaction.options.getUser("user");
             const texti = interaction.options.getString("texti");
             console.log(user);

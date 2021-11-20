@@ -7,7 +7,7 @@ const commands = [
 	new SlashCommandBuilder().setName('ping').setDescription('Replies with pong!'),
 	new SlashCommandBuilder().setName('server').setDescription('Replies with server info!'),
 	new SlashCommandBuilder()
-	    .setName('thanks')
+	    .setName('thank')
 	    .setDescription('Thank a user 🙌')
 			.addUserOption(option => 
 				option
