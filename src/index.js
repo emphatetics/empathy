@@ -1,7 +1,7 @@
 require("dotenv").config();
 const reasons = require("./reasons");
 const queue = require("./queue");
-const { juryMessageFields, summonShaman } = require('./summonShaman')
+const { juryMessageFields, summonShaman, createComponents } = require('./summonShaman')
 const {
     Client,
     Intents,
@@ -23,60 +23,7 @@ client.on("ready", () => {
     console.log(`Logged in as ${client.user.tag}!`);
 });
 
-function createComponents(bans, deletes, extra) {
-    return [
-        {
 
-            "type": 1,
-            "components": [
-                    {
-                        "type": 2,
-                        "label": "Delete",
-                        "style": 1,
-                        "custom_id": "delete_positive_" + extra,
-                        "emoji": {
-                            "id": null,
-                            "name": "👍"
-                        },
-                        "disabled": !deletes
-                    },
-                    {
-                        "type": 2,
-                        "label": "Delete",
-                        "style": 1,
-                        "custom_id": "delete_negative_" + extra,
-                        "emoji": {
-                            "id": null,
-                            "name": "👎"
-                        },
-                        "disabled": !deletes
-                    },
-                    {
-                        "type": 2,
-                        "label": "Ban",
-                        "style": 4,
-                        "custom_id": "ban_positive_" + extra,
-                        "emoji": {
-                            "id": null,
-                            "name": "👍"
-                        },
-                        "disabled": !bans
-                    },
-                    {
-                        "type": 2,
-                        "label": "Ban",
-                        "style": 4,
-                        "custom_id": "ban_negative_" + extra,
-                        "emoji": {
-                            "id": null,
-                            "name": "👎"
-                        },
-                        "disabled": !bans
-                    }
-            ]
-        }
-    ]
-}
 
 client.on("messageCreate", async (message) => {
     if (message.author.bot) return;
