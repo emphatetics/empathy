@@ -111,7 +111,6 @@ function createComponents(bans, deletes, extra) {
         {
             "type": 1,
             "components": [
-                ...(deletes ? [
                     {
                         "type": 2,
                         "label": "Delete",
@@ -120,7 +119,8 @@ function createComponents(bans, deletes, extra) {
                         "emoji": {
                             "id": null,
                             "name": "👍"
-                        }
+                        },
+                        "disabled": !deletes
                     },
                     {
                         "type": 2,
@@ -130,10 +130,9 @@ function createComponents(bans, deletes, extra) {
                         "emoji": {
                             "id": null,
                             "name": "👎"
-                        }
+                        },
+                        "disabled": !deletes
                     },
-                ] : []),
-                ...(bans ? [
                     {
                         "type": 2,
                         "label": "Ban",
@@ -142,7 +141,8 @@ function createComponents(bans, deletes, extra) {
                         "emoji": {
                             "id": null,
                             "name": "👍"
-                        }
+                        },
+                        "disabled": !bans
                     },
                     {
                         "type": 2,
@@ -152,9 +152,9 @@ function createComponents(bans, deletes, extra) {
                         "emoji": {
                             "id": null,
                             "name": "👎"
-                        }
+                        },
+                        "disabled": !bans
                     }
-                ] : [])
             ]
         }
     ]
