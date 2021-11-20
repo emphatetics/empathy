@@ -12,13 +12,33 @@
  
  let lastTime = 0; // Last time the request was sent succesfully for rate limiting
  
+ const leetTable = {
+    1: 'i',
+    2: 'z',
+    3: 'e',
+    4: 'a',
+    5: 's',
+    6: 'g',
+    7: 't',
+    8: 'b',
+    0: 'o'
+ }
+
  async function nextInQueue() {
      if (queue.length > 0 && Date.now() - lastTime > 1000) {
          const message = queue.shift();
          if (!message.content || message.content === '') {
              return nextInQueue();
          }
+         
          const scores = await analyzeText(message.content);
+         console.log(scores);
+         // Anti leet
+         const normalLeet = message.content.split("").map(char => leetTable[char] || char).join("");
+         if (normalLeet !== message.content) {
+            message.content = normalLeet;
+            queue.push(message);
+         }
          const overLimit =
              Object.values(scores).filter((score) => score > limit).length != 0;
          if (overLimit) {
@@ -57,14 +77,7 @@
              "SEVERE_TOXICITY",
              "IDENTITY_ATTACK",
              "INSULT",
-             "PROFANITY",
              "THREAT",
-             "SEXUALLY_EXPLICIT",
-             "SPAM",
-             "ATTACK_ON_AUTHOR",
-             "ATTACK_ON_COMMENTER",
-             "INFLAMMATORY",
-             "OBSCENE",
          ],
          languages: ["en"],
          doNotStore: false,
