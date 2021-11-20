@@ -11,7 +11,14 @@ const commands = [
 		subcommand
 			.setName('user')
 			.setDescription('Thank an user 🙌🙌🙌🙌')
-			.addUserOption(option => option.setName('user').setDescription('The user'))),
+			.addUserOption(option => 
+				option.setName('user')
+				.setDescription('The user')
+				.setRequired(true))
+			.addStringOption(option => 
+				option.setName('texti')
+				.setDescription('The text')
+				.setRequired(true))),
 ]
 	.map(command => command.toJSON());
 

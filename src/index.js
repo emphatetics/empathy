@@ -21,23 +21,24 @@ client.on('interactionCreate', async interaction => {
 
   if (interaction.options.getSubcommand() === 'user') {
     const user = interaction.options.getUser('user');
+    const texti = interaction.options.getString('texti');
     console.log (user);
-    
+    console.log (texti);
 
     if (user) {
  // määritetään embedi jolla viestit lähetetään ( voikohan iskee process.env filuun?)
       const exampleEmbed = {
         color: 0x0099ff,
-        title: 'Some title',
+        title: 'Thank you! 🙌🙌',
         url: 'https://discord.js.org',
         author: {
-          name: 'Some name',
-          icon_url: 'https://i.imgur.com/AfFp7pu.png',
+          name: `${interaction.user.username}`,
+          icon_url: interaction.user.displayAvatarURL(),
           url: 'https://discord.js.org',
         },
-        description: 'Some description here',
+        description: `${texti}`,
         thumbnail: {
-          url: 'https://i.imgur.com/AfFp7pu.png',
+          url: user.displayAvatarURL(),
         },
         fields: [
           {
@@ -48,16 +49,6 @@ client.on('interactionCreate', async interaction => {
             name: '\u200b',
             value: '\u200b',
             inline: false,
-          },
-          {
-            name: 'Inline field title',
-            value: 'Some value here',
-            inline: true,
-          },
-          {
-            name: 'Inline field title',
-            value: 'Some value here',
-            inline: true,
           },
           {
             name: 'Inline field title',
