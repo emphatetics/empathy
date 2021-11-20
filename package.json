@@ -2,10 +2,11 @@
   "name": "empathy",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "src/index.js",
   "scripts": {
     "start": "node src/index.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "prepare": "husky install"
   },
   "repository": {
     "type": "git",
@@ -25,6 +26,10 @@
     "discord.js": "^13.3.1",
     "dotenv": "^10.0.0",
     "mariadb": "^2.5.5",
-    "sequelize": "^6.12.0-alpha.1"
+    "sequelize": "^6.12.0-alpha.1",
+    "velocity-api": "^2.0.3"
+  },
+  "devDependencies": {
+    "husky": "^7.0.4"
   }
 }
