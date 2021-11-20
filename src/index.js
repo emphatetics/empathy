@@ -58,15 +58,6 @@ client.on('interactionCreate', async interaction => {
   }	
 
 
-  
-  
-
-
-
-
-
-
-
 
 }
 );
