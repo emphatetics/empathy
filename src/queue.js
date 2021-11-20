@@ -65,7 +65,6 @@
              "ATTACK_ON_COMMENTER",
              "INFLAMMATORY",
              "OBSCENE",
-             "SPAM",
          ],
          languages: ["en"],
          doNotStore: false,
