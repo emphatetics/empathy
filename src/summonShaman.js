@@ -1,5 +1,18 @@
 const database = require("./db/database");
 
+const juryMessageFields = (bans, deletes) => [
+    {
+        value: `${deletes} / ${process.env.DELETE_THRESHOLD} votes`,
+        name: "Delete",
+        inline: true,
+    },
+    {
+        value: `${bans} / ${process.env.BAN_THRESHOLD} votes`,
+        name: "Ban",
+        inline: true,
+    },
+];
+
 async function summonShaman(client, interaction, isInteraction) {
     let originalMessage;
     if (isInteraction) {
@@ -92,4 +105,4 @@ async function summonShaman(client, interaction, isInteraction) {
     }
 }
 
-module.exports = summonShaman;
+module.exports = { juryMessageFields, summonShaman };

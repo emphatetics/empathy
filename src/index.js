@@ -1,7 +1,7 @@
 require("dotenv").config();
 const reasons = require("./reasons");
 const queue = require("./queue");
-const summonShaman = require('./summonShaman')
+const { juryMessageFields, summonShaman } = require('./summonShaman')
 const {
     Client,
     Intents,
@@ -22,19 +22,6 @@ database.connect();
 client.on("ready", () => {
     console.log(`Logged in as ${client.user.tag}!`);
 });
-
-const juryMessageFields = (bans, deletes) => [
-    {
-        value: `${deletes} / ${process.env.DELETE_THRESHOLD} votes`,
-        name: "Delete",
-        inline: true,
-    },
-    {
-        value: `${bans} / ${process.env.BAN_THRESHOLD} votes`,
-        name: "Ban",
-        inline: true,
-    },
-];
 
 function createComponents(bans, deletes, extra) {
     return [
