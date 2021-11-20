@@ -66,9 +66,22 @@ client.on("interactionCreate", async (interaction) => {
         }
         if (bans >= process.env.BAN_THRESHOLD && !report.actionsTaken.split(',').includes('ban')) {
             interaction.followUp("Looks like someone's getting banned! 😈")
+            const [channelId, messageId] = report.targetId.split('/')
+            const channel = await client.channels.fetch(channelId)
+            const message = await channel.messages.fetch(messageId)
+            console.log(message)
+            message.member.ban({days: 1, reason: "get banned by empathy"})
+            //const member = interaction.guild.members.fetch(report.targetId)
+            //console.log(member)
             addActionsTaken('ban')
         }
         if (deletes >= process.env.DELETE_THRESHOLD && !report.actionsTaken.split(',').includes('delete')) {
+            const [channelId, messageId] = report.targetId.split('/')
+            const channel = await client.channels.fetch(channelId)
+            const message = await channel.messages.fetch(messageId)
+            console.log(message)
+            
+            message.delete()
             interaction.followUp("Offender's message got deleted! Good job community! ✨ #BadVibesNever")
             addActionsTaken('delete')
         }
@@ -126,7 +139,7 @@ async function summonShaman(interaction, isInteraction) {
 
         const report = await database.Reports.create({
             type: 'message',
-            targetId: reaction.message.id,
+            targetId: reaction.message.channel.id + '/' + reaction.message.id,
             juryMessageId: 'tba',
             reason: isInteraction ? interaction.values[0] : 'other'
         })
