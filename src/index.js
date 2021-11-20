@@ -112,7 +112,7 @@ async function summonShaman(interaction, isInteraction) {
             });
         }
     } else {
-        originalMessage = interaction.message;
+        originalMessage = message;
     }
 
     const juryChannel = await client.channels.fetch(
@@ -132,7 +132,7 @@ async function summonShaman(interaction, isInteraction) {
         type: "message",
         targetId: originalMessage.channel.id + "/" + originalMessage.id,
         juryMessageId: "tba",
-        reason: isInteraction ? interaction.values[0] : "other",
+        reason: isInteraction ? interaction.values[0] : "toxicity (autodetected)",
     });
 
     console.log(report);
@@ -150,7 +150,7 @@ async function summonShaman(interaction, isInteraction) {
                 ? reasons.find(
                       (reason) => reason.value === interaction.values[0]
                   ).label
-                : "other"
+                : "toxicity (autodetected)"
         }**\n\nReported message:\n>>> ${originalMessage.content}`,
         fields: juryMessageFields(0, 0),
     };
@@ -403,5 +403,7 @@ client.on("interactionCreate", async (interaction) => {
         }
     }
 });
+
+module.exports = { summonShaman };
 
 client.login(process.env.DISCORD_TOKEN);

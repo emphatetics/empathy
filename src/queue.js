@@ -6,6 +6,7 @@
  require("dotenv").config();
  const { Velocity } = require("velocity-api");
  const database = require("./db/database");
+ const { summonShaman } = require('./index');
  const queue = [];
  const limit = 0.8;
  const karmaDecrease = 10;
@@ -59,7 +60,7 @@
              }
              user.karma -= karmaDecrease;
              await user.save();
-             message.react("😞");
+             summonShaman(message, false)
              console.log(message.author.tag + " karma decreased");
          }
          setTimeout(nextInQueue, 1000);
