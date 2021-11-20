@@ -17,6 +17,10 @@ const Reports = sequelize.define('reports', {
         type: Sequelize.DataTypes.ENUM('user', 'message'),
         allowNull: false
     },
+    actionsTaken: {
+        type: Sequelize.DataTypes.STRING, // where the fuck is the SET data type? screw you sequelize 
+        defaultValue: ""
+    },
     targetId: {
         type: Sequelize.DataTypes.STRING,
         allowNull: false
@@ -34,21 +38,29 @@ const Votes = sequelize.define('votes', {
         unique: true,
         autoIncrement: true
     },
-    userid: {
+    userId: {
         type: Sequelize.DataTypes.STRING,
         allowNull: false
     },
     kind: {
-        type: Sequelize.DataTypes.ENUM('ban', 'kick'),
+        type: Sequelize.DataTypes.ENUM('ban', 'delete'),
         allowNull: false
     },
     vote: {
         type: Sequelize.DataTypes.ENUM('positive', 'negative'),
         allowNull: false
     },
+},
+{
+    indexes: [
+        {
+            unique: true,
+            fields: ['userId', 'reportId', 'kind']
+        }
+    ]
 })
 
-Votes.belongsTo(Reports)
+Reports.Votes = Votes.belongsTo(Reports)
 
 async function connect() {
     try {
