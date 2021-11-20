@@ -10,10 +10,6 @@ const commands = [
 	new SlashCommandBuilder()
 	.setName('thanks')
 	.setDescription('Thank a user 🙌')
-	/*.addSubcommand(subcommand =>
-		subcommand
-			// .setName('user')
-			.setDescription('Thank an user 🙌🙌🙌🙌') */
 			.addUserOption(option => 
 				option
 				.setName('user')
