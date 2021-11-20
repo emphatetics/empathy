@@ -69,7 +69,7 @@ client.on("interactionCreate", async (interaction) => {
             addActionsTaken('ban')
         }
         if (deletes >= process.env.DELETE_THRESHOLD && !report.actionsTaken.split(',').includes('delete')) {
-            interaction.followUp("Offender's message got deleted! Good job community! ✨ #GoodVibesOnly")
+            interaction.followUp("Offender's message got deleted! Good job community! ✨ #BadVibesNever")
             addActionsTaken('delete')
         }
 
@@ -122,7 +122,7 @@ async function summonShaman(interaction, isInteraction) {
     });
     if (!karmaUser) karmaUser = {karma: 0};
 
-        console.log(reaction.users.cache, reaction.users)
+//        console.log(reaction.users.cache, reaction.users)
 
         const report = await database.Reports.create({
             type: 'message',
