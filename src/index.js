@@ -53,10 +53,12 @@ client.on("interactionCreate", async (interaction) => {
                 id: reportId
             }
         })
-        function addActionsTaken(name) {
-            let actionsTaken = report.actionsTaken.split(',');
-            actionsTaken.push(name)
-            database.Reports.update({
+        let actionsTaken = report.actionsTaken.split(',');
+        
+        async function addActionsTaken(name) {
+        actionsTaken.push(name)
+           
+            await database.Reports.update({
                 actionsTaken: actionsTaken.join(',')
             }, {
                 where: {
@@ -66,11 +68,24 @@ client.on("interactionCreate", async (interaction) => {
         }
         if (bans >= process.env.BAN_THRESHOLD && !report.actionsTaken.split(',').includes('ban')) {
             interaction.followUp("Looks like someone's getting banned! 😈")
-            addActionsTaken('ban')
+            const [channelId, messageId] = report.targetId.split('/')
+            const channel = await client.channels.fetch(channelId)
+            const message = await channel.messages.fetch(messageId)
+            console.log(message)
+            message.member.ban({days: 1, reason: "get banned by empathy"})
+            //const member = interaction.guild.members.fetch(report.targetId)
+            //console.log(member)
+            await addActionsTaken('ban')
         }
         if (deletes >= process.env.DELETE_THRESHOLD && !report.actionsTaken.split(',').includes('delete')) {
+            const [channelId, messageId] = report.targetId.split('/')
+            const channel = await client.channels.fetch(channelId)
+            const message = await channel.messages.fetch(messageId)
+            console.log(message)
+
+            message.delete()
             interaction.followUp("Offender's message got deleted! Good job community! ✨ #BadVibesNever")
-            addActionsTaken('delete')
+            await addActionsTaken('delete')
         }
 
 
@@ -79,11 +94,71 @@ client.on("interactionCreate", async (interaction) => {
         console.log(interaction.message.embeds[0].fields)
         const embeds = interaction.message.embeds;
         embeds[0].fields = juryMessageFields(bans, deletes);
-        interaction.message.edit({ embeds })
+
+        const delState = !actionsTaken.includes('delete');
+        const banState = !actionsTaken.includes('ban');
+
+        const extra = interaction.message.id + "_" + report.id;
+        const comps = createComponents(banState, delState, extra);
+        interaction.message.edit({ embeds,  components: 
+            comps})
+        console.log(comps)
     }
 });
 
-
+function createComponents(bans, deletes, extra) {
+    return [
+        {
+            "type": 1,
+            "components": [
+                ...(deletes ? [
+                    {
+                        "type": 2,
+                        "label": "Delete",
+                        "style": 1,
+                        "custom_id": "delete_positive_" + extra,
+                        "emoji": {
+                            "id": null,
+                            "name": "👍"
+                        }
+                    },
+                    {
+                        "type": 2,
+                        "label": "Delete",
+                        "style": 1,
+                        "custom_id": "delete_negative_" + extra,
+                        "emoji": {
+                            "id": null,
+                            "name": "👎"
+                        }
+                    },
+                ] : []),
+                ...(bans ? [
+                    {
+                        "type": 2,
+                        "label": "Ban",
+                        "style": 4,
+                        "custom_id": "ban_positive_" + extra,
+                        "emoji": {
+                            "id": null,
+                            "name": "👍"
+                        }
+                    },
+                    {
+                        "type": 2,
+                        "label": "Ban",
+                        "style": 4,
+                        "custom_id": "ban_negative_" + extra,
+                        "emoji": {
+                            "id": null,
+                            "name": "👎"
+                        }
+                    }
+                ] : [])
+            ]
+        }
+    ]
+}
 async function summonShaman(interaction, isInteraction) {
     let originalMessage;
     let reaction = interaction
@@ -126,7 +201,7 @@ async function summonShaman(interaction, isInteraction) {
 
         const report = await database.Reports.create({
             type: 'message',
-            targetId: reaction.message.id,
+            targetId: reaction.message.channel.id + '/' + reaction.message.id,
             juryMessageId: 'tba',
             reason: isInteraction ? interaction.values[0] : 'other'
         })
@@ -148,53 +223,7 @@ async function summonShaman(interaction, isInteraction) {
         };
         const extra = reaction.message.id + "_" + report.id;
 
-        const sent = await juryChannel.send({ embeds: [embed], components: [
-            {
-                "type": 1,
-                "components": [
-                    {
-                        "type": 2,
-                        "label": "Delete",
-                        "style": 1,
-                        "custom_id": "delete_positive_" + extra,
-                        "emoji": {
-                            "id": null,
-                            "name": "👍"
-                        }
-                    },
-                    {
-                        "type": 2,
-                        "label": "Delete",
-                        "style": 1,
-                        "custom_id": "delete_negative_" + extra,
-                        "emoji": {
-                            "id": null,
-                            "name": "👎"
-                        }
-                    },
-                    {
-                        "type": 2,
-                        "label": "Ban",
-                        "style": 4,
-                        "custom_id": "ban_positive_" + extra,
-                        "emoji": {
-                            "id": null,
-                            "name": "👍"
-                        }
-                    },
-                    {
-                        "type": 2,
-                        "label": "Ban",
-                        "style": 4,
-                        "custom_id": "ban_negative_" + extra,
-                        "emoji": {
-                            "id": null,
-                            "name": "👎"
-                        }
-                    }
-                ]
-            }
-        ] });
+        const sent = await juryChannel.send({ embeds: [embed], components: createComponents(true, true, extra) });
 
         database.Reports.update({
             juryMessageId: sent.id
