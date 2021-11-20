@@ -1,7 +1,7 @@
 require("dotenv").config();
 const reasons = require("./reasons");
 const queue = require("./queue");
-const { juryMessageFields, summonShaman, createComponents } = require('./summonShaman')
+const { juryMessageFields, summonShaman, createComponents, reportsMap } = require('./summonShaman')
 const {
     Client,
     Intents,
@@ -29,7 +29,6 @@ client.on("messageCreate", async (message) => {
     if (message.author.bot) return;
     queue.push(message);
 });
-const reportsMap = new Map(); // For holding IDs for in progress reports
 
 client.on("interactionCreate", async (interaction) => {
     if (interaction.isButton()) {

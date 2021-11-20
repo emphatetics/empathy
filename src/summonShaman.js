@@ -12,6 +12,7 @@ const juryMessageFields = (bans, deletes) => [
         inline: true,
     },
 ];
+const reportsMap = new Map(); // For holding IDs for in progress reports
 
 
 function createComponents(bans, deletes, extra) {
@@ -161,4 +162,4 @@ async function summonShaman(client, interaction, isInteraction) {
     }
 }
 
-module.exports = { juryMessageFields, summonShaman, createComponents };
+module.exports = { juryMessageFields, summonShaman, createComponents, reportsMap };
