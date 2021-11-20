@@ -20,7 +20,55 @@ client.on('interactionCreate', async interaction => {
 	} else if (commandName === 'info') {
 
   if (interaction.options.getSubcommand() === 'user') {
-    const user = interaction.options.getUser('target');
+    const user = interaction.options.getUser('user');
+    const exampleEmbed = {
+      color: 0x0099ff,
+      title: 'Some title',
+      url: 'https://discord.js.org',
+      author: {
+        name: 'Some name',
+        icon_url: 'https://i.imgur.com/AfFp7pu.png',
+        url: 'https://discord.js.org',
+      },
+      description: 'Some description here',
+      thumbnail: {
+        url: 'https://i.imgur.com/AfFp7pu.png',
+      },
+      fields: [
+        {
+          name: interaction.user.username,
+          value: 'Some value here',
+        },
+        {
+          name: '\u200b',
+          value: '\u200b',
+          inline: false,
+        },
+        {
+          name: 'Inline field title',
+          value: 'Some value here',
+          inline: true,
+        },
+        {
+          name: 'Inline field title',
+          value: 'Some value here',
+          inline: true,
+        },
+        {
+          name: 'Inline field title',
+          value: 'Some value here',
+          inline: true,
+        },
+      ],
+      image: {
+        url: 'https://i.imgur.com/AfFp7pu.png',
+      },
+      timestamp: new Date(),
+      footer: {
+        text: 'Some footer text here',
+        icon_url: 'https://i.imgur.com/AfFp7pu.png',
+      },
+    };
 
     if (user) {
       await interaction.reply(`Username: ${user.username}\nID: ${user.id}`);
@@ -31,6 +79,17 @@ client.on('interactionCreate', async interaction => {
   } else if (interaction.options.getSubcommand() === 'server') {
     await interaction.reply(`Server name: ${interaction.guild.name}\nTotal members: ${interaction.guild.memberCount}`);
   }	
+
+
+  
+  
+ // channel.send({ embeds: [exampleEmbed] });
+
+
+
+
+
+
 
 }
 });
