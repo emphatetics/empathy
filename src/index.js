@@ -303,9 +303,7 @@ client.on("interactionCreate", async (interaction) => {
             );
         } else if (commandName === "thank") {
             const user = interaction.options.getUser("user");
-            const texti = interaction.options.getString("texti");
-            console.log(user);
-            console.log(texti);
+            const texti = interaction.options.getString("text");
 
             if (user) {
                 // Create the thank you embed

@@ -12,15 +12,15 @@ const commands = [
 			.addUserOption(option => 
 				option
 				.setName('user')
-				.setDescription('The user')
+				.setDescription('The amazing user you are thanking! 🌟')
 				.setRequired(true))
 			.addStringOption(option => 
 				option
-				.setName('texti')
-				.setDescription('The text')
+				.setName('text')
+				.setDescription('Specify why you are thanking this amazing user! ✨')
 				.setRequired(true)),
     new SlashCommandBuilder()
-        .setName("placeholder")
+        .setName("placeholder") // This is the "report" action
         .setDescription("Placeholder"),
 ]
 	.map(command => command.toJSON());
