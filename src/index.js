@@ -29,8 +29,9 @@ client.on('interactionCreate', async interaction => {
  // määritetään embedi jolla viestit lähetetään ( voikohan iskee process.env filuun?)
       const exampleEmbed = {
         color: 0xf7d80a,
-        title: 'Thank you! 🙌🙌',
-        url: 'https://discord.js.org',
+      // title: `${texti}`,
+        // title: 'Thank you! 🙌🙌',
+       // url: 'https://discord.js.org',
         author: {
           name: `${user.username}`,
           icon_url: user.displayAvatarURL(),
@@ -39,7 +40,7 @@ client.on('interactionCreate', async interaction => {
         description: `${texti}`,
        /* thumbnail: {
           url: ,
-        },*/
+        },
         fields: [
           {
             name: `${user.username}`,
@@ -58,7 +59,7 @@ client.on('interactionCreate', async interaction => {
         ],
         image: {
           url: '',
-        },
+        }, */
         timestamp: new Date(),
         footer: {
           text: `thanks by <@${interaction.user.username}>`,
