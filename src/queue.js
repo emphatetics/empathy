@@ -6,7 +6,7 @@
  require("dotenv").config();
  const { Velocity } = require("velocity-api");
  const database = require("./db/database");
- const summonShaman = require('./summonShaman');
+ const { summonShaman } = require('./summonShaman');
  const queue = [];
  const limit = 0.8;
  const karmaDecrease = 10;
