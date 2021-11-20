@@ -43,7 +43,7 @@ async function summonShaman(client, interaction, isInteraction) {
         type: "message",
         targetId: originalMessage.channel.id + "/" + originalMessage.id,
         juryMessageId: "tba",
-        reason: isInteraction ? interaction.values[0] : "toxicity (autodetected)",
+        reason: isInteraction ? interaction.values[0] : "other",
     });
 
     console.log(report);
