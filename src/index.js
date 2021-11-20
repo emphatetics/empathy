@@ -94,7 +94,6 @@ function createComponents(bans, deletes, extra) {
 }
 async function summonShaman(interaction, isInteraction) {
     let originalMessage;
-    let reaction = interaction;
     if (isInteraction) {
         const originalInteractionId = interaction.message.interaction.id;
         const originalMessageId = reportsMap.get(originalInteractionId);
@@ -134,7 +133,7 @@ async function summonShaman(interaction, isInteraction) {
 
     const report = await database.Reports.create({
         type: "message",
-        targetId: reaction.message.channel.id + "/" + reaction.message.id,
+        targetId: originalMessage.channel.id + "/" + originalMessage.id,
         juryMessageId: "tba",
         reason: isInteraction ? interaction.values[0] : "other",
     });
@@ -142,10 +141,10 @@ async function summonShaman(interaction, isInteraction) {
     console.log(report);
     const embed = {
         color: 0x0099ff,
-        title: `Community moderation for ${reaction.message.author.tag}'s message`,
+        title: `Community moderation for ${originalMessage.author.tag}'s message`,
         author: {
-            name: reaction.message.author.tag,
-            icon_url: reaction.message.author.displayAvatarURL(),
+            name: `${originalMessage.author.tag} (${originalMessage.author.id})`,
+            icon_url: originalMessage.author.displayAvatarURL(),
         },
         description: `Vote for action\n\nReported user's karma: **${
             karmaUser.karma
@@ -158,7 +157,7 @@ async function summonShaman(interaction, isInteraction) {
         }**\n\nReported message:\n>>> ${originalMessage.content}`,
         fields: juryMessageFields(0, 0),
     };
-    const extra = reaction.message.id + "_" + report.id;
+    const extra = originalMessage.id + "_" + report.id;
 
     const sent = await juryChannel.send({
         embeds: [embed],
