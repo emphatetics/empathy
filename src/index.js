@@ -26,7 +26,7 @@ client.on('interactionCreate', async interaction => {
     console.log (texti);
 
     if (user) {
- // Create the embed
+ // Create the thank you embed
       const exampleEmbed = {
         color: 0xf7d80a,
       // title: `${texti}`,   // uncomment if you want the thankyou string into the title part of the embed character limit is around 250 something
