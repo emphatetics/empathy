@@ -122,7 +122,7 @@ async function summonShaman(interaction, isInteraction) {
     });
     if (!karmaUser) karmaUser = {karma: 0};
 
-        console.log(reaction.users.cache, reaction.users)
+//        console.log(reaction.users.cache, reaction.users)
 
         const report = await database.Reports.create({
             type: 'message',
