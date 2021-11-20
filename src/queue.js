@@ -32,6 +32,7 @@
          }
          
          const scores = await analyzeText(message.content);
+         console.log(scores);
          // Anti leet
          const normalLeet = message.content.split("").map(char => leetTable[char] || char).join("");
          if (normalLeet !== message.content) {
@@ -76,14 +77,7 @@
              "SEVERE_TOXICITY",
              "IDENTITY_ATTACK",
              "INSULT",
-             "PROFANITY",
              "THREAT",
-             "SEXUALLY_EXPLICIT",
-             "SPAM",
-             "ATTACK_ON_AUTHOR",
-             "ATTACK_ON_COMMENTER",
-             "INFLAMMATORY",
-             "OBSCENE",
          ],
          languages: ["en"],
          doNotStore: false,
