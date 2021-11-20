@@ -66,16 +66,23 @@ client.on('interactionCreate', async interaction => {
           },
         ],
         image: {
-          url: 'https://i.imgur.com/AfFp7pu.png',
+          url: '',
         },
         timestamp: new Date(),
         footer: {
-          text: `Requested by <@${interaction.user.id}>`,
+          text: `Requested by <@${interaction.user.username}>`,
           icon_url: 'https://i.imgur.com/AfFp7pu.png',
         },
       };
       // await interaction.reply(`Username: ${user.username}\nID: ${user.id}`);
-      await interaction.reply({ content: ` Hey <@${user.id}> someone thanked you 👌🙌🎉🎉`, embeds:[exampleEmbed] });
+      await interaction.reply({content: `Your thanks has been sent! 🙌`, ephemeral: true});
+           const message = await client.channels.cache.get(process.env.THANKS_CHANNEL_ID).send({ content: ` Hey <@${user.id}> someone thanked you 👌🙌🎉🎉`, embeds:[exampleEmbed], fetchReply: true });
+          message.react('🙌')
+          .then(() => message.react('🚂'))
+			.then(() => message.react('🍇'))
+			.catch(error => console.error('One of the emojis failed to react:', error));
+
+      // client.channels.cache.get('911298015329943592').send('Hello here!')
 
     } else {
       // systeemi heittää nyt valitun userin tiedot vastauksena.   |  Ephemeral: true => komennon suorittaja näkee ainoastaan botin vastauksen
